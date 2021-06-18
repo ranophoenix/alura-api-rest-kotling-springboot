@@ -2,14 +2,10 @@ package ranophoenix.alura.forum.service
 
 import org.springframework.stereotype.Service
 import ranophoenix.alura.forum.model.Curso
+import ranophoenix.alura.forum.repository.CursoRepository
 
 @Service
-class CursoService(private var cursos:MutableList<Curso> = mutableListOf<Curso>()) {
-   init {
-       val curso = Curso(id = 1, nome = "Kotlin", categoria = "Programação")
+class CursoService(private val repository: CursoRepository) {
 
-       cursos.add(curso)
-   }
-
-   fun buscarPorId(id: Long): Curso = cursos.first { it.id == id }
+   fun buscarPorId(id: Long): Curso = repository.getById(id)
 }

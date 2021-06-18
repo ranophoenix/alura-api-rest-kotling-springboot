@@ -2,14 +2,10 @@ package ranophoenix.alura.forum.service
 
 import org.springframework.stereotype.Service
 import ranophoenix.alura.forum.model.Usuario
+import ranophoenix.alura.forum.repository.UsuarioRepository
 
 @Service
-class UsuarioService(private var usuarios: MutableList<Usuario> = mutableListOf<Usuario>()) {
-    init {
-        val usuario = Usuario(id = 1, nome = "Robert", email = "robert@teste.com")
+class UsuarioService(private val repository: UsuarioRepository) {
 
-        usuarios.add(usuario)
-    }
-
-    fun buscarPorId(id: Long): Usuario = usuarios.first { it.id == id }
+    fun buscarPorId(id: Long): Usuario = repository.getById(id)
 }
