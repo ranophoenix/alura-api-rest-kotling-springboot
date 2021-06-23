@@ -1,5 +1,7 @@
 package ranophoenix.alura.forum.service
 
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import ranophoenix.alura.forum.dto.AtualizacaoTopicoForm
@@ -18,15 +20,18 @@ class TopicoService(
     private val notFoundMessage: String = "Tópico não encontrado."
 ) {
 
-    fun listar(nomeCurso: String?): List<TopicoView> {
+    fun listar(
+        nomeCurso: String?,
+        paginacao: Pageable
+    ): Page<TopicoView> {
         val topicos = if (nomeCurso == null) {
-            repository.findAll()
+            repository.findAll(paginacao)
         } else {
-            repository.findByCursoNome(nomeCurso)
+            repository.findByCursoNome(nomeCurso, paginacao)
         }
-        return topicos.asSequence().map {
+        return topicos.map {
             topicoViewMapper.map(it)
-        }.toList()
+        }
     }
 
     fun buscarPorId(id: Long): TopicoView {
