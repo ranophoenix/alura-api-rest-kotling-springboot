@@ -16,18 +16,21 @@ import javax.validation.Valid
 class TopicoController(private val service: TopicoService) {
 
     @GetMapping
-    fun listar(): List<TopicoView> {
-        return service.listar()
+    fun listar(@RequestParam(required = false) nomeCurso: String?): List<TopicoView> {
+        return service.listar(nomeCurso)
     }
 
     @GetMapping("/{id}")
-    fun buscarPorId(@PathVariable id:Long):TopicoView {
+    fun buscarPorId(@PathVariable id: Long): TopicoView {
         return service.buscarPorId(id)
     }
 
     @PostMapping
     @Transactional
-    fun cadastrar(@RequestBody @Valid dto: NovoTopicoForm, uriBuilder: UriComponentsBuilder):ResponseEntity<TopicoView> {
+    fun cadastrar(
+        @RequestBody @Valid dto: NovoTopicoForm,
+        uriBuilder: UriComponentsBuilder
+    ): ResponseEntity<TopicoView> {
         val topicoView = service.cadastrar(dto)
         val uri = uriBuilder.path("topicos/${topicoView.id}").build().toUri()
 

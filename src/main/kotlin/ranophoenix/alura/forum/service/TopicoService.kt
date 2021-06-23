@@ -18,8 +18,13 @@ class TopicoService(
     private val notFoundMessage: String = "Tópico não encontrado."
 ) {
 
-    fun listar(): List<TopicoView> {
-        return repository.findAll().asSequence().map {
+    fun listar(nomeCurso: String?): List<TopicoView> {
+        val topicos = if (nomeCurso == null) {
+            repository.findAll()
+        } else {
+            repository.findByCursoNome(nomeCurso)
+        }
+        return topicos.asSequence().map {
             topicoViewMapper.map(it)
         }.toList()
     }
