@@ -1,5 +1,6 @@
 package ranophoenix.alura.forum.controller
 
+import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -36,6 +37,7 @@ class TopicoController(private val service: TopicoService) {
 
     @PostMapping
     @Transactional
+    @CacheEvict(cacheNames = ["topicos"], allEntries = true)
     fun cadastrar(
         @RequestBody @Valid dto: NovoTopicoForm,
         uriBuilder: UriComponentsBuilder
@@ -48,6 +50,7 @@ class TopicoController(private val service: TopicoService) {
 
     @PutMapping
     @Transactional
+    @CacheEvict(cacheNames = ["topicos"], allEntries = true)
     fun atualizar(@RequestBody @Valid dto: AtualizacaoTopicoForm): ResponseEntity<TopicoView> {
         val t = service.atualizar(dto)
 
@@ -57,6 +60,7 @@ class TopicoController(private val service: TopicoService) {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
+    @CacheEvict(cacheNames = ["topicos"], allEntries = true)
     fun deletar(@PathVariable id: Long) {
         service.deletar(id)
     }
