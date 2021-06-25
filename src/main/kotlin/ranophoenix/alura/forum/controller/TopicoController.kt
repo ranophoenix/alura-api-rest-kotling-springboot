@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.util.UriComponentsBuilder
 import ranophoenix.alura.forum.dto.AtualizacaoTopicoForm
 import ranophoenix.alura.forum.dto.NovoTopicoForm
+import ranophoenix.alura.forum.dto.TopicoPorCategoriaDto
 import ranophoenix.alura.forum.dto.TopicoView
 import ranophoenix.alura.forum.service.TopicoService
 import javax.validation.Valid
@@ -63,5 +64,10 @@ class TopicoController(private val service: TopicoService) {
     @CacheEvict(cacheNames = ["topicos"], allEntries = true)
     fun deletar(@PathVariable id: Long) {
         service.deletar(id)
+    }
+
+    @GetMapping("/relatorio")
+    fun relatorio() :List<TopicoPorCategoriaDto> {
+        return service.relatorio()
     }
 }

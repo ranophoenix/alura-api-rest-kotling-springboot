@@ -6,6 +6,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import ranophoenix.alura.forum.dto.AtualizacaoTopicoForm
 import ranophoenix.alura.forum.dto.NovoTopicoForm
+import ranophoenix.alura.forum.dto.TopicoPorCategoriaDto
 import ranophoenix.alura.forum.dto.TopicoView
 import ranophoenix.alura.forum.exception.NotFoundException
 import ranophoenix.alura.forum.mapper.TopicoFormMapper
@@ -54,6 +55,10 @@ class TopicoService(
 
     fun deletar(id: Long) {
         repository.deleteById(id)
+    }
+
+    fun relatorio():List<TopicoPorCategoriaDto> {
+        return repository.relatorio()
     }
 
 }
